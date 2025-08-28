@@ -5,6 +5,7 @@
 GIL이 제거된 Python 3.13.7을 빌드하여 Docker 이미지로 제공합니다.
 
 > 2025년 8월 현재 공식 Docker Hub에는 GIL이 제거된 Python 3.13 이미지가 없습니다.
+> apt ppa에서 제공되는 Python 3.13 nogil은 속도가 느립니다.
 
 ## 주요 특징
 

@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y \
     libbz2-dev \
     libffi-dev \
     liblzma-dev \
-    wget
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
 # Python 3.13 소스 코드 다운로드 및 압축 해제
 RUN wget https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tar.xz && \
@@ -25,3 +26,6 @@ RUN ./configure --prefix=/usr/local --disable-gil --without-gil --enable-optimiz
     make -j$(nproc) && \
     make altinstall
 
+WORKDIR /
+RUN rm Python-3.13.7.tar.xz && \
+    rm -rf /Python-3.13.7
