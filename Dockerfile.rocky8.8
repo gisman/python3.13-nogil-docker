@@ -1,0 +1,33 @@
+# Python 3.13 소스 코드 이미지를 기반으로 시작
+FROM rockylinux:8.8 AS build-env
+
+# 필요한 빌드 종속성 설치
+RUN dnf install -y \
+    gcc \
+    make \
+    zlib-devel \
+    ncurses-devel \
+    gdbm-devel \
+    openssl-devel \
+    readline-devel \
+    sqlite-devel \
+    bzip2-devel \
+    libffi-devel \
+    xz-devel \
+    wget \
+    tar \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python 3.13 소스 코드 다운로드 및 압축 해제
+RUN wget https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tar.xz && \
+    tar xf Python-3.13.7.tar.xz
+
+# GIL 없이 Python 컴파일 및 설치
+WORKDIR /Python-3.13.7
+RUN ./configure --prefix=/usr/local --disable-gil --without-gil --enable-optimizations && \
+    make -j$(nproc) && \
+    make altinstall
+
+WORKDIR /
+RUN rm Python-3.13.7.tar.xz && \
+    rm -rf /Python-3.13.7
